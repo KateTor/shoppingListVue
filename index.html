@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shopping List App</title>
+</head>
+
+<body>
+    <div id="shopping-list">
+        <h1>{{ header.toLocaleUpperCase() }}</h1>
+        <ul>
+            <!--would like an li for each item in items array-->
+            <li v-for="item in items">{{ item }}</li>
+        </ul>
+    </div>    
+
+    <!--import with script-->
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        //assign new Vue instance with variable
+        var shoppingList = new Vue({
+            //targets element by id
+            el: "#shopping-list",
+            data: {
+                header: "shopping list app",
+                items: [
+                    "10 party hats",
+                    "2 board games",
+                    "20 cups"
+                ]
+            }
+        });
+    </script>
+</body>
+
+</html>
