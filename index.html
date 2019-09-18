@@ -14,10 +14,11 @@
         <!--adding new item through .push method-->
         <div class="add-items-form">
             <!--adding new items through input-->
-            <input v-model="newItem" type="text" placeholder="Add an item" 
-            v-on:keyup.enter="items.push(newItem)"/>
-            <button class="btn btn-primary" v-on:click="items.push(newItem)">Save</button>
             <!--short hand for v-on is @ symbol ex: @click=""-->
+            <input v-model="newItem" type="text" placeholder="Add an item" v-on:keyup.enter="items.push(newItem)"/>
+            <!--instead of defining method on each element, can define methods below and call them in v-on:-->
+            <button class="btn btn-primary" v-on:click="saveItem">Save</button>
+            
         </div>
 
         <ul>
@@ -41,6 +42,14 @@
                     "2 board games",
                     "20 cups"
                 ]
+            },
+            //another way of defining methods instead of v-on: is defining a method here | need to use 'this' keyword | can be reusable methods
+            methods: {
+                saveItem: function() {
+                    this.items.push(this.newItem);
+                    //sets state back to an empty string
+                    this.newItem = "";
+                }
             }
         });
     </script>
