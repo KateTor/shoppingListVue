@@ -9,10 +9,15 @@
 
 <body>
     <div id="shopping-list">
-        <h1>{{ header.toLocaleUpperCase() }}</h1>
+        <div class="header">
+            <h1>{{ header.toLocaleUpperCase() }}</h1>
+            <!--can use v-if and v-else to dynamically toggle elements based on conditional-->
+            <button v-if="state === 'default'" @click="changeState('edit')" class="btn btn-primary">Add Item</button>
+            <button v-else="state === 'edit'" @click="changeState('default')" class="btn btn-cancel">Cancel</button>
+        </div>
 
-        <!--adding new item through .push method-->
-        <div class="add-items-form">
+        <!--adding new item through .push method | if statement toggles on/off with above buttons changing state from "default" below-->
+        <div class="add-items-form" v-if="state === 'edit'">
             <!--adding new items through input-->
             <!--short hand for v-on is @ symbol ex: @click=""-->
             <input v-model="newItem" type="text" placeholder="Add an item" v-on:keyup.enter="items.push(newItem)"/>
@@ -25,6 +30,8 @@
             <!--would like an li for each item in items array-->
             <li v-for="item in items">{{ item }}</li>
         </ul>
+        <!--if statement to toggle between this and list-->
+        <p v-if="items.length === 0">Nice Job! You've bought all of your items!</p>
     </div>    
 
     <!--import with script-->
@@ -35,12 +42,13 @@
             //targets element by id
             el: "#shopping-list",
             data: {
+                state: "default",
                 header: "shopping list app",
                 newItem: "",
                 items: [
-                    "10 party hats",
-                    "2 board games",
-                    "20 cups"
+                    // "10 party hats",
+                    // "2 board games",
+                    // "20 cups"
                 ]
             },
             //another way of defining methods instead of v-on: is defining a method here | need to use 'this' keyword | can be reusable methods
@@ -48,6 +56,10 @@
                 saveItem: function() {
                     this.items.push(this.newItem);
                     //sets state back to an empty string
+                    this.newItem = "";
+                },
+                changeState: function(newState) {
+                    this.state = newState;
                     this.newItem = "";
                 }
             }
