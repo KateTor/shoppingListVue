@@ -22,13 +22,13 @@
             <!--short hand for v-on is @ symbol ex: @click=""-->
             <input v-model="newItem" type="text" placeholder="Add an item" v-on:keyup.enter="items.push(newItem)"/>
             <!--instead of defining method on each element, can define methods below and call them in v-on:-->
-            <button class="btn btn-primary" v-on:click="saveItem">Save</button>
-            
+            <button class="btn btn-primary" v-on:click="saveItem" :disabled="newItem.length === 0">Save</button>
+            <!--v-bind can be shortened to a : | above code disables button if length is 0-->
         </div>
 
         <ul>
             <!--would like an li for each item in items array-->
-            <li v-for="item in items">{{ item }}</li>
+            <li v-for="item in items" :class="{strikeout: item.purchased}">{{ item.label }}</li>
         </ul>
         <!--if statement to toggle between this and list-->
         <p v-if="items.length === 0">Nice Job! You've bought all of your items!</p>
@@ -46,15 +46,27 @@
                 header: "shopping list app",
                 newItem: "",
                 items: [
-                    // "10 party hats",
-                    // "2 board games",
-                    // "20 cups"
+                    {
+                        label: "10 party hats",
+                        purchased: false,
+                    },
+                    {
+                        label: "2 board games",
+                        purchased: true
+                    },
+                    {
+                        label: "20 cups",
+                        purchased: false
+                    }
                 ]
             },
             //another way of defining methods instead of v-on: is defining a method here | need to use 'this' keyword | can be reusable methods
             methods: {
                 saveItem: function() {
-                    this.items.push(this.newItem);
+                    this.items.push({
+                        label: this.newItem,
+                        purchased: false
+                    });
                     //sets state back to an empty string
                     this.newItem = "";
                 },
